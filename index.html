@@ -1,11 +1,596 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Shadi Baramaki</title>
+  <meta name="description" content="Shadi Baramaki — Backend (Java/Spring Boot), Microservices, Observability, ML/AI." />
+
+  <style>
+    /* ---------- Theme (Light/Dark) ---------- */
+    :root{
+      --bg:#ffffff;
+      --ink:#0b0f1a;
+      --muted:#5b6473;
+      --hair:#e8e9ee;
+      --card:#fbfbfd;
+      --shadow: 0 20px 60px rgba(10, 20, 40, .08);
+      --radius: 22px;
+    }
+    [data-theme="dark"]{
+      --bg:#0b0f1a;
+      --ink:#f5f7ff;
+      --muted:#a7b0c2;
+      --hair:#242a38;
+      --card:#0f1524;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--ink);
+      background:var(--bg);
+      letter-spacing:-0.01em;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1100px; margin:0 auto; padding:24px 20px 80px}
+
+    /* Top nav */
+    .nav{
+      position:sticky; top:0; z-index:30;
+      background: color-mix(in srgb, var(--bg) 82%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid color-mix(in srgb, var(--hair) 70%, transparent);
+    }
+    .navin{max-width:1100px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; justify-content:space-between}
+    .brand{font-weight:700; letter-spacing:-0.04em}
+
+    .links{display:flex; gap:16px; align-items:center}
+    .chip{
+      border:1px solid var(--hair);
+      padding:10px 14px;
+      border-radius:999px;
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .chip:hover{transform:translateY(-1px); box-shadow:0 10px 30px rgba(10,20,40,.08)}
+
+    /* Toggle button inside navbar */
+    .toggle{
+      margin-left:6px;
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid var(--hair);
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      cursor:pointer;
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .toggle:hover{transform:translateY(-1px); box-shadow:0 10px 30px rgba(10,20,40,.08)}
+    .toggle .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: var(--ink);
+      opacity:.85;
+    }
+
+    /* Hero */
+    .hero{display:grid; grid-template-columns: 1.1fr .9fr; gap:22px; align-items:center; padding-top:38px}
+    @media (max-width: 900px){ .hero{grid-template-columns:1fr; padding-top:20px} }
+
+    .h1{
+      font-size: clamp(42px, 5vw, 72px);
+      line-height: .95;
+      letter-spacing:-0.06em;
+      margin:0 0 14px;
+    }
+    .sub{
+      font-size:18px;
+      color:var(--muted);
+      line-height:1.6;
+      margin:0 0 22px;
+      max-width: 56ch;
+    }
+    .cta{display:flex; flex-wrap:wrap; gap:10px}
+    .btn{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:12px 16px;
+      border-radius:999px;
+      border:1px solid var(--hair);
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .btn:hover{transform:translateY(-1px); box-shadow:0 12px 30px rgba(10,20,40,.10)}
+    .btn.primary{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+
+    .kpi{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px}
+    .pill{
+      font-size:13px; color:var(--muted);
+      border:1px solid var(--hair);
+      padding:9px 12px;
+      border-radius:999px;
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+    }
+
+    .hero-sub{
+      display:block;
+      font-size: 0.42em;
+      font-weight: 600;
+      color: var(--ink);
+      opacity: .72;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-top: 14px;
+      max-width: 22ch;
+    }
+
+    /* Portrait */
+    .portraitCard{
+      position:relative;
+      border:1px solid var(--hair);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg,#fff, #fafaff);
+      box-shadow: var(--shadow);
+      min-height: 420px;
+      overflow:hidden;
+    }
+    [data-theme="dark"] .portraitCard{
+      background: linear-gradient(180deg, color-mix(in srgb, var(--card) 85%, #000), var(--card));
+    }
+
+    .portraitInner{
+      position:absolute; inset:0;
+      display:grid; place-items:center;
+      padding:18px;
+    }
+    .avatar{
+      width:min(320px, 76%);
+      aspect-ratio: 3/4;
+      border-radius: 28px;
+      border:1px solid rgba(232,233,238,.9);
+      background-image:url('assets/IMG_3895.PNG');
+      background-size:cover;
+      background-position:center;
+      display:block;
+    }
+
+    .ring{
+      position:absolute;
+      width: 380px; height:380px;
+      border-radius:50%;
+      border:1px solid rgba(11,15,26,.12);
+      display:grid; place-items:center;
+      transform: rotate(-12deg);
+      pointer-events:none;
+      opacity:.55;
+    }
+    [data-theme="dark"] .ring{border-color: rgba(245,247,255,.14);}
+    @media (max-width: 900px){ .ring{width:320px; height:320px} }
+
+    .ringText{
+      position:absolute;
+      width:100%; height:100%;
+      animation: spin 18s linear infinite;
+      opacity:.92;
+    }
+    @keyframes spin { to { transform: rotate(360deg);} }
+
+    /* Sections */
+    .section{padding-top:70px}
+    .stitle{
+      font-size:26px;
+      letter-spacing:-0.04em;
+      margin:0 0 14px;
+    }
+    .sdesc{margin:0 0 18px; color:var(--muted); max-width:75ch}
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    .card{
+      grid-column: span 4;
+      border:1px solid var(--hair);
+      border-radius: var(--radius);
+      background: var(--card);
+      padding:18px;
+      box-shadow: 0 10px 30px rgba(10,20,40,.04);
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .card:hover{transform:translateY(-2px); box-shadow:0 18px 45px rgba(10,20,40,.08)}
+    .card h3{margin:0 0 8px; letter-spacing:-0.03em}
+    .meta{margin:0 0 10px; color:var(--muted); font-size:14px}
+    .list{margin:0; padding-left:18px; color:var(--ink)}
+    .tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+    .tag{
+      font-size:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid var(--hair);
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      color:var(--muted)
+    }
+    @media (max-width: 900px){
+      .card{grid-column: span 12;}
+    }
+
+    /* Experience: each item in one row */
+    #work .card{ grid-column: span 12; }
+
+    /* Projects */
+    .proj{ grid-column: span 4; padding:16px; }
+    @media (max-width: 900px){ .proj{grid-column: span 12;} }
+
+    .projTop{display:flex; align-items:flex-start; justify-content:space-between; gap:10px}
+    .projTitle{margin:0; font-size:16px; letter-spacing:-0.03em}
+    .projDesc{margin:8px 0 0; color:var(--muted); font-size:14px; line-height:1.55}
+    .projLinks{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
+    .plink{font-size:13px; border-bottom:1px solid color-mix(in srgb, var(--ink) 25%, transparent)}
+
+    .projImg{
+      width: 100%;
+      height:300px;
+      object-fit:cover;
+      border-radius:16px;
+      border:1px solid var(--hair);
+      margin-bottom:14px;
+      background:#fff;
+    }
+
+    /* Certificates + Languages */
+    .smallGrid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    .smallCard{
+      grid-column: span 6;
+      border:1px solid var(--hair);
+      border-radius: var(--radius);
+      background: var(--card);
+      padding:18px;
+      box-shadow: 0 10px 30px rgba(10,20,40,.04);
+    }
+    @media (max-width: 900px){
+      .smallCard{ grid-column: span 12; }
+    }
+    .itemRow{display:flex; justify-content:space-between; gap:12px; align-items:flex-start}
+    .itemTitle{margin:0; font-weight:700; letter-spacing:-0.02em}
+    .itemMeta{margin:6px 0 0; color:var(--muted); font-size:14px; line-height:1.5}
+    .itemLinks{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+
+    .foot{
+      margin-top:70px; padding-top:24px;
+      border-top:1px solid var(--hair);
+      color:var(--muted);
+      font-size:13px;
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap
+    }
+    .fadeUp{opacity:0; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease}
+    .fadeUp.show{opacity:1; transform:translateY(0)}
+    .certLink{
+  font-weight:700;
+  border-bottom:2px solid var(--ink);
+}
+.toggle{
+  color: var(--ink);   /* ← خیلی مهم */
+}
+[data-theme="dark"] .toggle{
+  color: var(--ink);   /* تو دارک مود سفید میشه */
+}
+
+
+  </style>
 </head>
-<body style="font-family: Arial; text-align:center; margin-top:50px;">
-  <h1>سلام، من شادی هستم 👋</h1>
-  <p>به سایت شخصی من خوش اومدید</p>
+
+<body>
+  <div class="nav">
+    <div class="navin">
+      <div class="brand">Shadi Baramaki</div>
+
+      <div class="links">
+        <a class="chip" href="#work">Work</a>
+        <a class="chip" href="#projects">Projects</a>
+        <a class="chip" href="#certs">Certificates</a>
+        <a class="chip" href="#languages">Languages</a>
+        <a class="chip" href="#contact">Contact</a>
+
+        <!-- Theme Toggle (Right side, after Contact) -->
+        <button class="toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="themeLabel">Light</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- HERO -->
+    <div class="hero">
+      <div>
+        <h1 class="h1 fadeUp">
+          <span class="hero-main">Software Engineering Graduate</span><br/>
+          <span class="hero-sub">Exploring Machine Learning and Intelligent Systems.</span>
+        </h1>
+
+        <p class="sub fadeUp">
+          Software Engineering graduate with backend experience in microservices and observability, now focusing on Machine Learning and AI for graduate study and research.
+        </p>
+
+        <div class="cta fadeUp">
+          <a class="btn primary" href="mailto:Shadibaramaki1382@gmail.com">Email</a>
+          <a class="btn" href="https://github.com/shadibaramaki" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/in/shadi-baramaki-50b661277/" target="_blank" rel="noreferrer">LinkedIn</a>
+        </div>
+
+        <div class="kpi fadeUp">
+          <div class="pill">NumPy · TensorFlow · scikit-learn</div>
+          <div class="pill">Java · Spring Boot · Microservices</div>
+          <div class="pill">C++ · Python</div>
+        </div>
+      </div>
+
+      <div class="portraitCard fadeUp">
+        <div class="portraitInner">
+          <div class="ring" aria-hidden="true">
+            <svg class="ringText" viewBox="0 0 100 100">
+              <defs>
+                <path id="circlePath" d="M50,50 m-35,0 a35,35 0 1,1 70,0 a35,35 0 1,1 -70,0"/>
+              </defs>
+              <text font-size="6" fill="color-mix(in srgb, var(--ink) 75%, transparent)" letter-spacing="1.2">
+                <textPath href="#circlePath" startOffset="0"></textPath>
+              </text>
+            </svg>
+          </div>
+
+          <div class="avatar"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <section id="work" class="section">
+      <h2 class="stitle fadeUp">Experience</h2>
+
+      <div class="grid">
+        <div class="card fadeUp">
+          <h3>Back-End Developer (Intern) — IPM</h3>
+          <p class="meta">Jul 2024 – Oct 2024</p>
+          <ul class="list">
+            <li>Implemented Spring Boot microservices architecture (gateway, service discovery, auth, monitoring).</li>
+            <li>Configured Prometheus metrics + Grafana dashboards for service health and performance visibility.</li>
+            <li>Maintained API documentation and testing flow via Swagger UI.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Spring Boot</span><span class="tag">Eureka</span><span class="tag">API Gateway</span>
+            <span class="tag">Prometheus</span><span class="tag">Grafana</span><span class="tag">Swagger</span>
+          </div>
+        </div>
+
+        <div class="card fadeUp">
+          <h3>Teaching Assistant — Kharazmi University</h3>
+          <p class="meta">Jan 2025 – Present</p>
+          <ul class="list">
+            <li>AI & Expert Systems: problem formulation, uninformed/informed search, rule-based inference.</li>
+            <li>Operating Systems: scheduling, memory/VM, processes/threads, file systems—trade-offs & behavior.</li>
+            <li>Structured feedback emphasizing correctness, reasoning, and technical communication.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Artificial Intelligence</span><span class="tag">Algorithms</span><span class="tag">Expert Systems</span>
+            <span class="tag">Operating Systems</span>
+          </div>
+        </div>
+
+        <div class="card fadeUp">
+          <h3>Technical Content Specialist — Perfetto Gruppo</h3>
+          <p class="meta">2023 – 2025</p>
+          <ul class="list">
+            <li>Designed structured software learning roadmaps (Machine Learning, programming languages).</li>
+            <li>Defined prerequisites, milestones, and sequencing to reduce ambiguity and improve progression.</li>
+            <li>Validated content with domain professionals to match current engineering practice.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Research</span><span class="tag">Software</span><span class="tag">Learning Path</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <h2 class="stitle fadeUp">Selected Projects</h2>
+
+      <div class="grid">
+        <div class="card proj fadeUp">
+          <img class="projImg" src="assets/mocha2.png" alt="Mocha Cloud preview" />
+          <div class="projTop">
+            <h3 class="projTitle">Mocha Cloud</h3>
+            <span class="tag">Cloud</span>
+          </div>
+          <p class="projDesc">
+            زloud-based platform that combines an online IDE, real-time collaboration, and developer tools to streamline the coding experience.          </p>
+          <div class="tags">
+            <span class="tag">React</span><span class="tag">Django</span><span class="tag">Docker</span><span class="tag">IDE</span>
+          </div>
+          <div class="projLinks">
+            <a class="plink" href="https://github.com/mocha-cloud-lagecy" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+        </div>
+
+        <div class="card proj fadeUp">
+          <img class="projImg" src="assets/rahsepar.png" alt="Rahsepar project preview" />
+          <div class="projTop">
+            <h3 class="projTitle">Rahsepar</h3>
+            <span class="tag">Research</span>
+          </div>
+          <p class="projDesc">
+            Research and implementation on multimodal urban transportation, focusing on metro-centric strategies to reduce traffic congestion.
+          </p>
+          <div class="tags">
+            <span class="tag">Research</span><span class="tag">Urban Mobility</span><span class="tag">Multimodal</span>
+          </div>
+        </div>
+
+        <div class="card proj fadeUp">
+          <img class="projImg" src="assets/image.png" alt="Hoperise platform preview" />
+          <div class="projTop">
+            <h3 class="projTitle">Hoperise</h3>
+            <span class="tag">EdTech</span>
+          </div>
+          <p class="projDesc">
+            Learning platform offering structured roadmaps across multiple domains, with a strong focus on software engineering and technology.
+          </p>
+          <div class="tags">
+            <span class="tag">Roadmaps</span><span class="tag">Software</span><span class="tag">Technology</span><span class="tag">Mobile App</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATES -->
+    <section id="certs" class="section">
+      <h2 class="stitle fadeUp">Certificates</h2>
+      <p class="sdesc fadeUp">
+        Machine Learning coursework completed as part of Andrew Ng’s Coursera specialization.
+      </p>
+
+      <div class="smallGrid">
+        <div class="smallCard fadeUp">
+          <div class="itemRow">
+            <div>
+              <h3 class="itemTitle">Machine Learning Specialization</h3>
+              <p class="itemMeta">Coursera · Andrew Ng · 2025</p>
+            </div>
+            <span class="tag">Program</span>
+          </div>
+          <p class="itemMeta">
+            Comprehensive specialization covering supervised, unsupervised, and reinforcement learning with hands-on Python labs.
+          </p>
+          <div class="itemLinks">
+            <a class="plink certLink" href="https://coursera.org/share/be531aa7c5989afa729cd95e6e589c3b" target="_blank" rel="noreferrer">Certificate Link</a>
+            <a class="plink" href="https://www.coursera.org/specializations/machine-learning-introduction" target="_blank" rel="noreferrer">Program Page</a>
+          </div>
+        </div>
+
+        <div class="smallCard fadeUp">
+          <div class="itemRow">
+            <div><h3 class="itemTitle">Supervised Machine Learning: Regression and Classification</h3></div>
+            <span class="tag">Supervised</span>
+          </div>
+          <p class="itemMeta">
+            Linear & logistic regression, gradient descent, feature engineering, bias–variance tradeoff, and model evaluation.
+          </p>
+          <div class="itemLinks">
+            <a class="plink certLink" href="https://coursera.org/share/6ceb44ee6d474b19bd8a9a69838e8b2e" target="_blank" rel="noreferrer">Certificate Link</a>
+          </div>
+        </div>
+
+        <div class="smallCard fadeUp">
+          <div class="itemRow">
+            <div><h3 class="itemTitle">Advanced Learning Algorithms</h3></div>
+            <span class="tag">Neural Nets</span>
+          </div>
+          <p class="itemMeta">
+            Neural networks with TensorFlow, decision trees, random forests, boosting, and best practices for ML development.
+          </p>
+          <div class="itemLinks">
+            <a class="plink certLink" href="https://coursera.org/share/4c957d01e174c20c38ea78094af075e4" target="_blank" rel="noreferrer">Certificate Link</a>
+          </div>
+        </div>
+
+        <div class="smallCard fadeUp">
+          <div class="itemRow">
+            <div><h3 class="itemTitle">Unsupervised Learning, Recommenders, Reinforcement Learning</h3></div>
+            <span class="tag">Unsupervised</span>
+          </div>
+          <p class="itemMeta">
+            Clustering, anomaly detection, collaborative filtering, content-based recommender systems, and reinforcement learning.
+          </p>
+          <div class="itemLinks">
+            <a class="plink certLink" href="https://coursera.org/share/f66d9dd4c257e15a9bd0bca1b957d8bb" target="_blank" rel="noreferrer">Certificate Link</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LANGUAGES -->
+    <section id="languages" class="section">
+      <h2 class="stitle fadeUp">Languages</h2>
+      <p class="sdesc fadeUp">Communication for research, teaching, and collaboration.</p>
+
+      <div class="smallGrid">
+        <div class="smallCard fadeUp">
+          <div class="itemRow">
+            <div>
+              <h3 class="itemTitle">English</h3>
+              <p class="itemMeta">IELTS Academic · Overall Band 7.0 (2025)</p>
+            </div>
+            <span class="tag">Advanced</span>
+          </div>
+        </div>
+
+        <div class="smallCard fadeUp">
+          <div class="itemRow">
+            <div>
+              <h3 class="itemTitle">Persian</h3>
+              <p class="itemMeta">Native</p>
+            </div>
+            <span class="tag">Native</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <h2 class="stitle fadeUp">Contact</h2>
+      <p class="sdesc fadeUp">If you want to collaborate, discuss grad school/research, or review a project—message me.</p>
+      <div class="cta fadeUp">
+        <a class="btn primary" href="mailto:Shadibaramaki1382@gmail.com">Shadibaramaki1382@gmail.com</a>
+        <a class="btn" href="https://github.com/shadibaramaki" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/shadi-baramaki-50b661277/" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
+    </section>
+
+    <div class="foot">
+      <div>© <span id="y"></span> Shadi Baramaki</div>
+      <div>Built for GitHub Pages · Minimal UI · Fast load</div>
+    </div>
+  </div>
+
+  <script>
+    // year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // soft reveal on scroll
+    const els = document.querySelectorAll('.fadeUp');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting) e.target.classList.add('show');
+      })
+    }, {threshold: 0.08});
+    els.forEach(el=>io.observe(el));
+
+    // ---- Theme Toggle (works + saves) ----
+    const root = document.documentElement;
+    const btn = document.getElementById("themeToggle");
+    const label = document.getElementById("themeLabel");
+
+    // default = light, but load saved
+    const saved = localStorage.getItem("theme") || "light";
+    root.setAttribute("data-theme", saved);
+    label.textContent = saved === "dark" ? "Light" : "Dark";
+
+    btn.addEventListener("click", () => {
+      const current = root.getAttribute("data-theme") || "light";
+      const next = current === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      localStorage.setItem("theme", next);
+      label.textContent = next === "dark" ? "Light" : "Dark";
+    });
+  </script>
 </body>
 </html>
