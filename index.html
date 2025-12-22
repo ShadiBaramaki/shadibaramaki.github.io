@@ -68,7 +68,9 @@
       background: color-mix(in srgb, var(--bg) 92%, transparent);
       cursor:pointer;
       transition:transform .15s ease, box-shadow .15s ease;
+      color: var(--ink);
     }
+    [data-theme="dark"] .toggle{ color: var(--ink); }
     .toggle:hover{transform:translateY(-1px); box-shadow:0 10px 30px rgba(10,20,40,.08)}
     .toggle .dot{
       width:10px; height:10px; border-radius:999px;
@@ -272,132 +274,278 @@
     .fadeUp{opacity:0; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease}
     .fadeUp.show{opacity:1; transform:translateY(0)}
     .certLink{
-  font-weight:700;
-  border-bottom:2px solid var(--ink);
-}
-.toggle{
-  color: var(--ink);   /* ← خیلی مهم */
-}
-[data-theme="dark"] .toggle{
-  color: var(--ink);   /* تو دارک مود سفید میشه */
-}
-/* ---------- Mobile / Responsive Enhancnskshements sjbssniks(no content changes) ---------- */
+      font-weight:700;
+      border-bottom:2px solid var(--ink);
+    }
 
-/* Make media/interactive elements scale properly */
-img, svg, video { max-width: 100%; height: auto; }
-.avatar { max-width: 100%; }
+    /* ---------- Mobile / Responsive Enhancements (no content changes) ---------- */
+    img, svg, video { max-width: 100%; height: auto; }
+    .avatar { max-width: 100%; }
+    :target { scroll-margin-top: 90px; }
 
-/* Better anchoring with sticky nav (prevents section titles hiding behind nav) */
-:target { scroll-margin-top: 90px; }
+    @media (max-width: 900px) {
+      .navin{
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .links{
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-start;
+      }
+      .chip, .toggle{
+        padding: 10px 12px;
+      }
 
-@media (max-width: 900px) {
-  /* Navbar: allow wrapping + comfortable spacing */
-  .navin{
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .links{
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: flex-start;
-  }
-  .chip, .toggle{
-    padding: 10px 12px;
-  }
+      .wrap{ padding: 18px 16px 64px; }
+      .hero{ gap: 16px; }
+      .sub{ font-size: 16px; }
+      .kpi{ margin-top: 14px; }
+      .cta{ gap: 10px; }
+      .btn{ justify-content: center; }
 
-  /* Layout spacing */
-  .wrap{ padding: 18px 16px 64px; }
+      .portraitCard{ min-height: 360px; }
+      .avatar{
+        width: min(320px, 86%);
+        border-radius: 22px;
+      }
+    }
 
-  /* Hero: stack already happens, just refine spacing */
-  .hero{ gap: 16px; }
-  .sub{ font-size: 16px; }
-  .kpi{ margin-top: 14px; }
+    @media (max-width: 600px) {
+      .wrap{ padding: 16px 14px 60px; }
 
-  /* CTA buttons: make them easier on touch */
-  .cta{ gap: 10px; }
-  .btn{
-    justify-content: center;
-  }
+      .h1{
+        font-size: clamp(34px, 9vw, 44px);
+        line-height: 1.02;
+      }
+      .hero-sub{
+        font-size: 0.48em;
+        max-width: 28ch;
+      }
+      .sub{
+        font-size: 15px;
+        line-height: 1.75;
+        margin-bottom: 16px;
+      }
 
-  /* Portrait card: reduce height on mobile */
-  .portraitCard{ min-height: 360px; }
-  .avatar{
-    width: min(320px, 86%);
-    border-radius: 22px;
-  }
-}
+      .chip, .toggle{
+        padding: 9px 12px;
+        font-size: 14px;
+      }
 
-@media (max-width: 600px) {
-  /* Typography + spacing for small phones */
-  .wrap{ padding: 16px 14px 60px; }
+      .cta .btn{ width: 100%; }
 
-  .h1{
-    font-size: clamp(34px, 9vw, 44px);
-    line-height: 1.02;
-  }
-  .hero-sub{
-    font-size: 0.48em;
-    max-width: 28ch;
-  }
-  .sub{
-    font-size: 15px;
-    line-height: 1.75;
-    margin-bottom: 16px;
-  }
+      .section{ padding-top: 54px; }
+      .stitle{ font-size: 22px; }
+      .sdesc{ font-size: 14px; line-height: 1.7; }
 
-  /* Navbar items: slightly more compact */
-  .chip, .toggle{
-    padding: 9px 12px;
-    font-size: 14px;
-  }
+      .card{
+        padding: 16px;
+        border-radius: 18px;
+      }
+      .smallCard{
+        padding: 16px;
+        border-radius: 18px;
+      }
 
-  /* Buttons: full width on mobile */
-  .cta .btn{
-    width: 100%;
-  }
+      .projImg{
+        height: 200px;
+        border-radius: 14px;
+      }
 
-  /* Sections spacing */
-  .section{ padding-top: 54px; }
-  .stitle{ font-size: 22px; }
-  .sdesc{ font-size: 14px; line-height: 1.7; }
+      .portraitCard{ min-height: 300px; border-radius: 18px; }
+      .ring{ width: 280px; height: 280px; }
 
-  /* Cards: reduce padding a bit */
-  .card{
-    padding: 16px;
-    border-radius: 18px;
-  }
-  .smallCard{
-    padding: 16px;
-    border-radius: 18px;
-  }
+      .foot{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+    }
 
-  /* Projects images: reduce height */
-  .projImg{
-    height: 200px;
-    border-radius: 14px;
-  }
-
-  /* Portrait card: smaller */
-  .portraitCard{ min-height: 300px; border-radius: 18px; }
-  .ring{ width: 280px; height: 280px; }
-
-  /* Footer: stack neatly */
-  .foot{
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
+    @media (max-width: 380px) {
+      .h1{ font-size: 32px; }
+      .chip, .toggle{ font-size: 13px; }
+      .projImg{ height: 170px; }
+      .ring{ width: 250px; height: 250px; }
+    }
+/* ===== Modern Research Interests (Bento Grid + Diagonal minimal) ===== */
+.researchBento{
+  position: relative;
+  border:1px solid color-mix(in srgb, var(--hair) 70%, transparent);
+  border-radius: calc(var(--radius) + 6px);
+  background:
+    radial-gradient(900px 420px at 12% 8%, color-mix(in srgb, var(--ink) 10%, transparent), transparent 58%),
+    radial-gradient(700px 360px at 88% 22%, color-mix(in srgb, var(--ink) 8%, transparent), transparent 60%),
+    color-mix(in srgb, var(--card) 92%, transparent);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  overflow:hidden;
 }
 
-@media (max-width: 380px) {
-  /* Very small devices */
-  .h1{ font-size: 32px; }
-  .chip, .toggle{ font-size: 13px; }
-  .projImg{ height: 170px; }
-  .ring{ width: 250px; height: 250px; }
+/* diagonal ribbons */
+.researchBento::before{
+  content:"";
+  position:absolute;
+  inset:-120px -140px auto -140px;
+  height: 260px;
+  transform: rotate(-7deg);
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--ink) 12%, transparent),
+    transparent 55%
+  );
+  opacity: .55;
+  pointer-events:none;
+}
+.researchBento::after{
+  content:"";
+  position:absolute;
+  inset:auto -140px -140px -140px;
+  height: 260px;
+  transform: rotate(-7deg);
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent 35%,
+    color-mix(in srgb, var(--ink) 10%, transparent)
+  );
+  opacity: .45;
+  pointer-events:none;
+}
+.researchBento > *{ position:relative; z-index:1; }
+
+.researchGrid{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 14px;
 }
 
+.researchHero{
+  grid-column: span 12;
+  border-radius: calc(var(--radius) + 6px);
+  border:1px solid color-mix(in srgb, var(--hair) 70%, transparent);
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  padding: 16px;
+}
+
+.researchHeroTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 12px;
+}
+
+.researchHeroTitle{
+  margin:0;
+  font-size: 18px;
+  letter-spacing:-0.03em;
+}
+
+.researchHeroDesc{
+  margin:8px 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 75ch;
+}
+
+.researchDivider{
+  grid-column: span 12;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--hair) 75%, transparent),
+    transparent
+  );
+  transform: skewX(-18deg);
+  opacity: .9;
+}
+
+.researchItem{
+  grid-column: span 6;
+  border-radius: calc(var(--radius) + 2px);
+  border:1px solid color-mix(in srgb, var(--hair) 70%, transparent);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  padding: 16px;
+  box-shadow: 0 10px 28px rgba(10,20,40,.06);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.researchItem:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 18px 46px rgba(10,20,40,.10);
+}
+
+.researchRow{
+  display:flex;
+  align-items:flex-start;
+  gap: 12px;
+}
+
+.rMark{
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  margin-top: 4px;
+  background: var(--ink);
+  opacity: .9;
+  flex: 0 0 12px;
+}
+
+.researchItemTitle{
+  margin:0;
+  font-weight: 750;
+  letter-spacing:-0.02em;
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.researchItemDesc{
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+/* Accent dots */
+.researchItem.a .rMark{ background: color-mix(in srgb, #6d5efc 72%, var(--ink)); }
+.researchItem.b .rMark{ background: color-mix(in srgb, #14b8a6 72%, var(--ink)); }
+.researchItem.c .rMark{ background: color-mix(in srgb, #f97316 72%, var(--ink)); }
+.researchItem.d .rMark{ background: color-mix(in srgb, #e11d48 72%, var(--ink)); }
+.researchItem.e .rMark{ background: color-mix(in srgb, #22c55e 72%, var(--ink)); }
+.researchItem.f .rMark{ background: color-mix(in srgb, #0ea5e9 72%, var(--ink)); }
+
+/* subtle tilt on desktop hover only */
+@media (hover:hover) and (pointer:fine){
+  .researchItem{
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .researchItem:hover{
+    transform: translateY(-3px) rotate(-0.6deg);
+  }
+  .researchItem:nth-of-type(3):hover{ transform: translateY(-3px) rotate(0.6deg); }
+  .researchItem:nth-of-type(4):hover{ transform: translateY(-3px) rotate(0.4deg); }
+  .researchItem:nth-of-type(5):hover{ transform: translateY(-3px) rotate(-0.4deg); }
+  .researchItem:nth-of-type(6):hover{ transform: translateY(-3px) rotate(0.8deg); }
+  .researchItem:nth-of-type(7):hover{ transform: translateY(-3px) rotate(-0.8deg); }
+  .researchItem:nth-of-type(8):hover{ transform: translateY(-3px) rotate(0.2deg); }
+}
+
+/* mobile layout */
+@media (max-width: 600px){
+  .researchBento{ padding: 16px; }
+  .researchItem{ grid-column: span 12; }
+  .researchHeroTitle{ font-size: 17px; }
+}
+
+/* disable tilt on touch devices */
+@media (hover:none){
+  .researchItem:hover{ transform: none; }
+}
 
   </style>
 </head>
@@ -409,12 +557,13 @@ img, svg, video { max-width: 100%; height: auto; }
 
       <div class="links">
         <a class="chip" href="#work">Work</a>
+        <a class="chip" href="#education">Education</a>
         <a class="chip" href="#projects">Projects</a>
         <a class="chip" href="#certs">Certificates</a>
+        <a class="chip" href="#research">Research</a>
         <a class="chip" href="#languages">Languages</a>
         <a class="chip" href="#contact">Contact</a>
 
-        <!-- Theme Toggle (Right side, after Contact) -->
         <button class="toggle" id="themeToggle" type="button" aria-label="Toggle theme">
           <span class="dot" aria-hidden="true"></span>
           <span id="themeLabel">Light</span>
@@ -515,6 +664,27 @@ img, svg, video { max-width: 100%; height: auto; }
       </div>
     </section>
 
+    <!-- EDUCATION -->
+    <section id="education" class="section">
+      <h2 class="stitle fadeUp">Education</h2>
+      <p class="sdesc fadeUp">Academic background and core study focus.</p>
+
+      <div class="grid">
+        <div class="card fadeUp" style="grid-column: span 12;">
+          <h3>Kharazmi University — Computer Engineering</h3>
+          <p class="meta">2021 – 2025 · GPA 3.45</p>
+          <ul class="list">
+            <li>Computer Engineering (B.Sc.) with coursework spanning software engineering.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Computer Engineering</span>
+            <span class="tag">2021–2025</span>
+            <span class="tag">GPA 3.45</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- PROJECTS -->
     <section id="projects" class="section">
       <h2 class="stitle fadeUp">Selected Projects</h2>
@@ -527,7 +697,8 @@ img, svg, video { max-width: 100%; height: auto; }
             <span class="tag">Cloud</span>
           </div>
           <p class="projDesc">
-            زloud-based platform that combines an online IDE, real-time collaboration, and developer tools to streamline the coding experience.          </p>
+            زloud-based platform that combines an online IDE, real-time collaboration, and developer tools to streamline the coding experience.
+          </p>
           <div class="tags">
             <span class="tag">React</span><span class="tag">Django</span><span class="tag">Docker</span><span class="tag">IDE</span>
           </div>
@@ -631,6 +802,106 @@ img, svg, video { max-width: 100%; height: auto; }
         </div>
       </div>
     </section>
+<!-- RESEARCH INTERESTS -->
+<section id="research" class="section">
+  <h2 class="stitle fadeUp">Research Interests</h2>
+
+  <div class="researchBento fadeUp">
+    <div class="researchGrid">
+      <div class="researchHero">
+        <div class="researchHeroTop">
+          <div>
+            <h3 class="researchHeroTitle">Current Focus</h3>
+            <p class="researchHeroDesc">
+              Key topics I’m actively learning and exploring for research direction and graduate study.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="researchDivider" aria-hidden="true"></div>
+
+      <!-- 1 -->
+      <div class="researchItem b">
+        <div class="researchRow">
+          <span class="rMark" aria-hidden="true"></span>
+          <div>
+            <h3 class="researchItemTitle">Deep learning and machine learning</h3>
+            <p class="researchItemDesc">
+              Core ML/DL methods, evaluation, and practical pipelines for real-world tasks.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="researchItem a">
+        <div class="researchRow">
+          <span class="rMark" aria-hidden="true"></span>
+          <div>
+            <h3 class="researchItemTitle">Neural network architectures</h3>
+            <p class="researchItemDesc">
+              Exploring modern model designs, training stability, and architecture-level improvements.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="researchItem c">
+        <div class="researchRow">
+          <span class="rMark" aria-hidden="true"></span>
+          <div>
+            <h3 class="researchItemTitle">Computer Vision</h3>
+            <p class="researchItemDesc">
+              Visual understanding and deep vision models for recognition and representation learning.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="researchItem e">
+        <div class="researchRow">
+          <span class="rMark" aria-hidden="true"></span>
+          <div>
+            <h3 class="researchItemTitle">Generative Models</h3>
+            <p class="researchItemDesc">
+              Probabilistic and neural generative models for representation learning and data synthesis.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="researchItem f">
+        <div class="researchRow">
+          <span class="rMark" aria-hidden="true"></span>
+          <div>
+            <h3 class="researchItemTitle">Reinforcement Learning</h3>
+            <p class="researchItemDesc">
+              Learning policies through interaction, reward optimization, and sequential decision-making.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="researchItem d">
+        <div class="researchRow">
+          <span class="rMark" aria-hidden="true"></span>
+          <div>
+            <h3 class="researchItemTitle">Multi-agent systems</h3>
+            <p class="researchItemDesc">
+              Coordination, communication, and learning dynamics in multi-agent environments.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
     <!-- LANGUAGES -->
     <section id="languages" class="section">
@@ -663,7 +934,6 @@ img, svg, video { max-width: 100%; height: auto; }
     <!-- CONTACT -->
     <section id="contact" class="section">
       <h2 class="stitle fadeUp">Contact</h2>
-      <p class="sdesc fadeUp">If you want to collaborate, discuss grad school/research, or review a project—message me.</p>
       <div class="cta fadeUp">
         <a class="btn primary" href="mailto:Shadibaramaki1382@gmail.com">Shadibaramaki1382@gmail.com</a>
         <a class="btn" href="https://github.com/shadibaramaki" target="_blank" rel="noreferrer">GitHub</a>
